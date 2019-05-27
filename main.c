@@ -38,12 +38,6 @@ char * ptr_tx;
 //*************************************************
 void interrupt high_priority isr_high(void);
 void interrupt low_priority isr_low(void);
-void serial_config ();
-void init_timer0(void);
-void send(char * ptr_array);
-void send_next();
-void received();
-void clean (char * ptr);
 
 //*************************************************
 // Main
@@ -90,8 +84,6 @@ void main(void)
     CVRCONbits.CVRSS = 0; // Comparator ref source CVrsrc = Vdd - Vss
 
     CVRCONbits.CVROE = 1; // CVref voltage is also output on the RA2 pin
-    
-    // OSCCONbits.IDLEN = 0; // Sleep mode
 
     while(1)
     {
@@ -123,18 +115,4 @@ void interrupt high_priority isr_high(void) // Interrupt service routine high pr
     	PIR2bits.CMIF = 0;
     	LED1 = C1OUT;
 	}
-}
-
-void init_timer0 (void)
-{
-    T0CONbits.T08BIT = 0; // 16 bits
-    T0CONbits.T0CS = 0; // Internal instruction cycle clock (8 MHz)
-    T0CONbits.T0SE = 0; // Increment in rising edge (low to high)
-    T0CONbits.PSA = 0; // Timer0 prescaler is assigned
-    T0CONbits.T0PS = 3; // Select prescaler (1:256)
-    INTCONbits.TMR0IF = 0; // Disable timer0 overflow flag
-    INTCON2bits.TMR0IP = 1; // High priority timer0 interrupt
-    TMR0 = timer0_start; // To count 0.5s
-    T0CONbits.TMR0ON = 1; // Start timer
-    INTCONbits.TMR0IE = 1; // Enable timer0 interrupts
 }
