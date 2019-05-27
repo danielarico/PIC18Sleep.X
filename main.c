@@ -40,13 +40,15 @@ void main(void)
     interr_config();
     ports_config();
     comparator_config();
+    
+    int delay = 30000;
 
     while(1)
     {
         LED2 = 1;
-        for(int i=0; i<30000; i++){}
+        for(int i=0; i<delay; i++){}
         LED2 = 0;
-        for(int i=0; i<30000; i++){}
+        for(int i=0; i<delay; i++){}
         SLEEP();
     }
 
