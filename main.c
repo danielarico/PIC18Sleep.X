@@ -17,21 +17,9 @@
 #define LED1 LATBbits.LATB0
 #define LED2 LATBbits.LATB1
 
-
 //*************************************************
 // Global variables declaration
 //*************************************************
-bool timer0_flag = false;
-bool tx_finish = false;
-bool rx_finish = false;
-const uint16_t timer0_start = 3036; // For prescaler 1:16
-const uint8_t array_size = 20;
-char rx_buffer[array_size];
-char rx_char = '\0';
-char rx_data = '\0';
-char * ptr_rx = rx_buffer;
-char * ptr_tx;
-
 
 //*************************************************
 // Functions' declaration
@@ -103,13 +91,6 @@ void main(void)
 
 void interrupt high_priority isr_high(void) // Interrupt service routine high priority
 {
-    if (INTCONbits.TMR0IF && INTCONbits.TMR0IE) // Timer0 interruption
-    {
-   	 INTCONbits.TMR0IF = 0;
-   	 TMR0 = timer0_start;
-   	 timer0_flag = true;
-    }
-    
 	if (PIE2bits.CMIE && PIR2bits.CMIF)
 	{
     	PIR2bits.CMIF = 0;
